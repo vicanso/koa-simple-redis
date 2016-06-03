@@ -153,7 +153,7 @@ class Redis extends EventEmitter {
           reject(err);
         } else {
           debug('Get TTL %s complete', sid);
-          resolve(data);
+          resolve(data * 1000);
         }
       });
     });

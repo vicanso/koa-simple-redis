@@ -70,7 +70,7 @@ describe('kog-simple-redis', () => {
       assert.equal(data.a, 1);
       return store.ttl(key);
     }).then(ttl => {
-      assert.equal(ttl, oneDay);
+      assert.equal(ttl, oneDay * 1000);
       return store.quit();
     }).then(() => {
       done();

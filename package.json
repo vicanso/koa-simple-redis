@@ -1,7 +1,7 @@
 {
   "name": "koa-simple-redis",
   "description": "koa session with redis using koa-simple-session",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Tree Xie <vicansocanbico@gmail.com>",
   "keywords": [
     "koa",

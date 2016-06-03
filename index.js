@@ -79,7 +79,7 @@ class Redis extends EventEmitter {
   }
 
   get(sid) {
-    const { client } = map.get(this);
+    const client = this.client;
     return new Promise((resolve, reject) => {
       client.get(sid, (err, data) => {
         /* istanbul ignore if */
@@ -106,7 +106,7 @@ class Redis extends EventEmitter {
   set(sid, _sess, _ttl) {
     const ttl = typeof _ttl === 'number' ? Math.ceil(_ttl / 1000) : 0;
     const sess = JSON.stringify(_sess);
-    const { client } = map.get(this);
+    const client = this.client;
     return new Promise((resolve, reject) => {
       const cb = (err, data) => {
         /* istanbul ignore if */
@@ -128,7 +128,7 @@ class Redis extends EventEmitter {
   }
 
   destroy(sid) {
-    const { client } = map.get(this);
+    const client = this.client;
     return new Promise((resolve, reject) => {
       debug('DEL %s', sid);
       client.del(sid, (err, data) => {
@@ -144,7 +144,7 @@ class Redis extends EventEmitter {
   }
 
   ttl(sid) {
-    const { client } = map.get(this);
+    const client = this.client;
     return new Promise((resolve, reject) => {
       debug('Get TTL %s', sid);
       client.ttl(sid, (err, data) => {
@@ -160,7 +160,7 @@ class Redis extends EventEmitter {
   }
 
   quit() {
-    const { client } = map.get(this);
+    const client = this.client;
     return new Promise((resolve, reject) => {
       debug('quitting redis client');
       client.quit((err, data) => {

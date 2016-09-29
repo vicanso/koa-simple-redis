@@ -1,7 +1,11 @@
+/* eslint strict:0 */
+
 'use strict';
+
 const pkg = require('./package');
 const debug = require('debug')(pkg.name);
 const EventEmitter = require('events');
+
 const map = new WeakMap();
 const redis = require('redis');
 
@@ -13,17 +17,15 @@ class Redis extends EventEmitter {
     if (!options.client) {
       debug('init redis new client');
       client = redis.createClient(options);
+    } else if (options.duplicate) {
+      debug('Duplicating provided client with new options (if provided)');
+      const dupClient = options.client;
+      delete options.client;
+      delete options.duplicate;
+      client = dupClient.duplicate(options);
     } else {
-      if (options.duplicate) {
-        debug('Duplicating provided client with new options (if provided)');
-        const dupClient = options.client;
-        delete options.client;
-        delete options.duplicate;
-        client = dupClient.duplicate(options);
-      } else {
-        debug('Using provided client');
-        client = options.client;
-      }
+      debug('Using provided client');
+      client = options.client;
     }
     const data = {
       client,

@@ -145,19 +145,34 @@ class Redis extends EventEmitter {
     });
   }
 
-  ttl(sid) {
+  ttl(sid, _ttl) {
     const client = this.client;
+    const ttl = typeof _ttl === 'number' ? Math.ceil(_ttl / 1000) : 0;
     return new Promise((resolve, reject) => {
-      debug('Get TTL %s', sid);
-      client.ttl(sid, (err, data) => {
-        /* istanbul ignore if */
-        if (err) {
-          reject(err);
-        } else {
-          debug('Get TTL %s complete', sid);
-          resolve(data * 1000);
-        }
-      });
+      // has ttl, update the sid ttl
+      if (ttl) {
+        debug('Set TTL %s %d', sid, ttl);
+        client.expire(sid, ttl, (err) => {
+          /* istanbul ignore if */
+          if (err) {
+            reject(err);
+          } else {
+            debug('Get TTL %s complete', sid);
+            resolve();
+          }
+        });
+      } else {
+        debug('Get TTL %s', sid);
+        client.ttl(sid, (err, data) => {
+          /* istanbul ignore if */
+          if (err) {
+            reject(err);
+          } else {
+            debug('Get TTL %s complete', sid);
+            resolve(data * 1000);
+          }
+        });
+      }
     });
   }
 

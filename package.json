@@ -1,7 +1,7 @@
 {
   "name": "koa-simple-redis",
   "description": "koa session with redis using koa-simple-session",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Tree Xie <vicansocanbico@gmail.com>",
   "repository": {
     "type": "git",
@@ -21,8 +21,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "debug": "^2.2.0",
-    "redis": "^2.6.2"
+    "debug": "^2.3.3",
+    "redis": "^2.6.3"
   },
   "devDependencies": {
     "eslint": "^3.6.1",

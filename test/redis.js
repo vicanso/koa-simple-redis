@@ -108,6 +108,33 @@ describe('kog-simple-redis', () => {
     }).catch(done);
   });
 
+  it('should update ttl success', function(done) {
+    this.timeout(10 * 1000);
+    const store = new Redis();
+    const key = 'key:ttl';
+    const oneSecond = 60;
+    store.set(key, {
+      a: 1,
+    }, oneSecond * 1000).then(() => {
+      return store.get(key);
+    }).then(data => {
+      assert.equal(data.a, 1);
+      return new Promise(resolve => setTimeout(resolve, 2000));
+    }).then(() => {
+      return store.ttl(key);
+    }).then(ttl => {
+      assert(ttl < oneSecond * 1000);
+      return store.ttl(key, oneSecond * 1000);
+    }).then(() => {
+      return store.ttl(key);
+    }).then((ttl) => {
+      assert.equal(ttl, oneSecond * 1000);
+      return store.quit();
+    }).then(() => {
+      done();
+    }).catch(done);
+  });
+
   it('should destroy ok', done => {
     const store = new Redis();
     const keyList = ['key:nottl', 'key:ttl', 'key:badKey'];

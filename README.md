@@ -11,7 +11,7 @@ Redis storage for koa session middleware/cache, based on [koa-redis](https://git
 
 ## Installation
 
-```bash
+```
 $ npm install koa-simple-redis
 ``` 
 
@@ -106,7 +106,9 @@ client.set('vicanso', {
 
 - `id` data's id
 
-Get the data's ttl
+- `ttl` the data's ttl
+
+Get/Set the data's ttl
 
 ```js
 const Redis = require('koa-simple-redis');
@@ -119,6 +121,7 @@ client.set('vicanso', {
   return client.ttl('vicanso')
 }).then((ttl) => {
   console.info('success');
+  return client.ttl('vicanso', 30 * 1000);
 });
 ```
 
